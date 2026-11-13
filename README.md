@@ -58,6 +58,7 @@ A normal release asks for confirmation before publishing. If several targets are
 ## Release preparation
 
 - Tool and Swift library releases can ship multiple skills and publish them to a marketplace together. Select skills in `nnex init`, or configure a target-level `skills` array in `.nnex/nnex.json`. Existing single-skill configurations continue to load without manual migration.
+- Swift libraries in private repositories can publish skills through a separate marketplace. Before shipping, set `privateSkillMarketplace` in `~/.nnex/nnex.json` with the marketplace's `repo` and optional `localPath`. Public package repositories continue to use `skillMarketplace`.
 - When answering a missing skill setting on the command line, repeat `--skill` for each folder. Interactive releases for targets already shipping skills also offer newly discovered, unassigned skill folders; you can include them, skip them for this release, or stop offering them on later releases.
 - Pass an exact version such as `1.2.0`, or a bump: `major`, `minor`, or `patch`. Omit the version to choose interactively.
 - Use `--ai-version` to request a version suggestion from commit history when an earlier release and a working AI command are available.
