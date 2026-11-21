@@ -55,6 +55,28 @@ nnex ship tool
 
 A normal release asks for confirmation before publishing. If several targets are configured, nnex prompts you to choose one; use `--target <name>` to select it explicitly.
 
+## Install a local CLI build
+
+From a Swift CLI project's Git repository with a clean working tree and Homebrew installed, run:
+
+```sh
+nnex install
+```
+
+nnex runs the project's recorded build and test commands, builds a release binary for this Mac, and links it into Homebrew's bin directory under the tool's own command name. Without recorded commands, it uses `swift build` and `swift test` without saving them to configuration. Use `--executable <product>` to select a product when the project has several.
+
+If Homebrew already owns the command, nnex asks before uninstalling that formula and remembers it for restoration. Declining keeps Homebrew's command but still updates the stored local build. Unrelated files and links at the destination are left alone.
+
+To remove the local command link, replace `<name>` with the installed tool's command name:
+
+```sh
+nnex uninstall <name>
+```
+
+nnex offers to reinstall the Homebrew formula it replaced. The stored local binary remains available to any existing `prod-<name>` alias. Refresh an open shell with `hash -r` or open a new tab afterward. Run `nnex uninstall <name>` before installing the same tool with Homebrew yourself.
+
+After `nnex ship tool` publishes a tool installed through `nnex install`, it offers to switch the command to the Homebrew formula just shipped. Declining keeps the local command link.
+
 ## Release preparation
 
 - Tool and Swift library releases can ship multiple skills and publish them to a marketplace together. Select skills in `nnex init`, or configure a target-level `skills` array in `.nnex/nnex.json`. Existing single-skill configurations continue to load without manual migration.
