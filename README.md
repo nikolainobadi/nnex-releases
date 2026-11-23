@@ -77,6 +77,8 @@ nnex offers to reinstall the Homebrew formula it replaced. The stored local bina
 
 After `nnex ship tool` publishes a tool installed through `nnex install`, it offers to switch the command to the Homebrew formula just shipped. Declining keeps the local command link.
 
+If the command already uses an older Homebrew installation from the same formula and tap, `nnex ship tool` runs `brew update` and upgrades it after publishing. Copies from another tap and copies already at the shipped version are left alone. If the upgrade fails, the error confirms publication and provides the `brew upgrade` command to retry after fixing the cause.
+
 ## Release preparation
 
 - Tool and Swift library releases can ship multiple skills and publish them to a marketplace together. Select skills in `nnex init`, or configure a target-level `skills` array in `.nnex/nnex.json`. Existing single-skill configurations continue to load without manual migration.
