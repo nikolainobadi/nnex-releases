@@ -79,6 +79,18 @@ After `nnex ship tool` publishes a tool installed through `nnex install`, it off
 
 If the command already uses an older Homebrew installation from the same formula and tap, `nnex ship tool` runs `brew update` and upgrades it after publishing. Copies from another tap and copies already at the shipped version are left alone. If the upgrade fails, the error confirms publication and provides the `brew upgrade` command to retry after fixing the cause.
 
+## Install a local macOS app build
+
+From your project's Git repository with a clean working tree and Xcode installed, run `nnex install` from the folder holding the Xcode project. Choose the macOS app when prompted, or pass `--executable <app-name>` to select it explicitly.
+
+nnex uses the cask scheme recorded in `.nnex/nnex.json`, a scheme matching the app's name, or the project's only scheme. If it cannot determine the scheme, record it as `distribution.cask.scheme` for the app target before retrying.
+
+Recorded build and test commands run first. Without recorded commands, nnex proceeds directly to the Xcode Release build without fallback tests. It copies the built app into `/Applications`, using the project's signing settings without notarization.
+
+Replacing an existing app requires confirmation and moves the old copy to the Trash. With `--non-interactive`, the existing copy is kept unless `--yes` is supplied. Quit the destination app before installing; if an installed Homebrew cask owns it, uninstall that cask before retrying.
+
+Apps installed this way are not tracked by `nnex uninstall`; remove them manually.
+
 ## Release preparation
 
 - Tool and Swift library releases can ship multiple skills and publish them to a marketplace together. Select skills in `nnex init`, or configure a target-level `skills` array in `.nnex/nnex.json`. Existing single-skill configurations continue to load without manual migration.
